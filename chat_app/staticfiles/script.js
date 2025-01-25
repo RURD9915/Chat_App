@@ -33,3 +33,20 @@ function adjustPageWidth() {
 
 window.addEventListener("resize", adjustPageWidth);
 adjustPageWidth();
+
+// WebSocket Connection
+let ws_scheme = window.location.protocol === "https:" ? "wss://" : "ws://";
+let ws_path =
+  ws_scheme +
+  window.location.host +
+  window.location.pathname.replace("/chat/", "/ws/chat/");
+let chatSocket = new WebSocket(ws_path);
+
+chatSocket.onmessage = function (e) {
+  let data = JSON.parse(e.data);
+  console.log(data);
+};
+
+chatSocket.onclose = function (e) {
+  console.error("Chat socket closed unexpectedly");
+};
