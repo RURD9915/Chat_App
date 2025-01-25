@@ -4,6 +4,7 @@ PS: Since the Project has already been hosted you do not need to clone the repos
 
 This is a Django-based chat application that allows users to sign up, log in, and chat with other registered users. It features a collapsible left menu to display all registered users, a main content area for chat interactions, and a right-side panel for additional functionality.
 
+
 Features
 User Registration and Authentication
 
@@ -16,7 +17,9 @@ User-Friendly Chat Interface
 Responsive Design for Various Screen Sizes
 
 
+
 Prerequisites
+
 Python 3.x
 
 Django
