@@ -6,15 +6,23 @@ This is a Django-based chat application that allows users to sign up, log in, an
 
 Features
 User Registration and Authentication
+
 Real-time Chat with WebSockets
+
 Collapsible Left Menu to Display Registered Users
+
 User-Friendly Chat Interface
+
 Responsive Design for Various Screen Sizes
+
 
 Prerequisites
 Python 3.x
+
 Django
+
 Channels
+
 Django Rest Framework (optional for future extensions)
 
 
