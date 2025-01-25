@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Chat Application{% endblock %}</title>
+    {% load static %} <!-- Add this line to load static files template tag library -->
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <div class="everything">
+        <nav class="navbar">
+            <h1>Chat Application</h1>
+            <ul>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                <li><a href="{% url 'register' %}">Register</a></li>
+                <li><a href="{% url 'login' %}">Login</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        <!-- Main Content -->
+        <div class="container">
+            {% block content %}
+            {% endblock %}
+        </div>
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2025 Chat Application. All rights reserved.</p>
+        </footer>
+    </div>
+    <script src="{% static 'script.js' %}"></script>
+</body>
+
+</html>

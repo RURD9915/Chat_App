@@ -1,0 +1,21 @@
+{% extends 'chat/base_generic.html' %}
+{% block content %}
+<!-- Left Menu -->
+<div class="left-menu">
+    <ul id="menuList">
+        {% for user in users %}
+        <li><a href="{% url 'chat_with_user' user.username %}">{{ user.username }}</a></li>
+        {% endfor %}
+    </ul>
+    <button id="toggleMenu">☰</button>
+</div>
+<!-- Main Content Area -->
+<div class="main-content">
+    <h2>Select a user to chat with</h2>
+</div>
+<!-- Right Panel -->
+<div class="right-panel">
+    <h3>Right Side Panel</h3>
+    <p>This is the right-side panel content.</p>
+</div>
+{% endblock %}

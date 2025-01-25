@@ -1,0 +1,85 @@
+{% extends 'chat/base_generic.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block content %}
+<!-- Left Menu -->
+<div class="left-menu">
+    <ul id="menuList">
+        {% for user in users %}
+        <li><a href="{% url 'chat_with_user' user.username %}">{{ user.username }}</a></li>
+        {% endfor %}
+    </ul>
+    <button id="toggleMenu">☰</button>
+</div>
+<!-- Main Content Area -->
+<div class="main-content">
+    <h2>Chat with {{ recipient.username }}</h2>
+    <div id="chat-log" style="height: 30rem; width: 35rem; overflow-y: scroll; border: 1px solid #ccc; padding: 10px;">
+        {% regroup messages by timestamp.date as message_groups %}
+        {% for group in message_groups %}
+        <div class="day-header">
+            <strong>{{ group.grouper|date:"F j, Y" }}</strong>
+        </div>
+        {% for message in group.list %}
+        <div class="message {% if message.sender == request.user %}sent{% else %}received{% endif %}">
+            <p class="message-content">
+                <strong>{{ message.sender.username }}</strong>: {{ message.content }} <em><em>{{
+                        message.timestamp|date:"H:i" }}</em>
+                </em>
+            </p>
+        </div>
+        {% endfor %}
+        {% endfor %}
+    </div>
+    <form id="chat-message-form">
+        {% csrf_token %}
+        <textarea id="chat-message-input" rows="3" cols="50" placeholder="Type your message here..."
+            style="width: 100%;"></textarea>
+        <button type="submit" style="width: 100%;">Send</button>
+    </form>
+</div>
+<!-- Right Panel -->
+<div class="right-panel">
+    <h3>Right Side Panel</h3>
+    <p>This is the right-side panel content.</p>
+</div>
+<script>
+    const chatSocket = new WebSocket(
+        'ws://' + window.location.host + '/ws/chat/{{ recipient.username }}/'
+    );
+
+    chatSocket.onmessage = function (e) {
+        const data = JSON.parse(e.data);
+        const message = data.message;
+        const sender = data.sender;
+        const chatLog = document.getElementById('chat-log');
+        const newMessage = document.createElement('div');
+        newMessage.className = "message " + (sender === "{{ request.user.username }}" ? "sent" : "received");
+        newMessage.innerHTML = `<p class="message-content">
+                                   <strong>${sender}</strong>: ${message} <em>Just now</em>
+                                </p>`;
+        chatLog.appendChild(newMessage);
+        chatLog.scrollTop = chatLog.scrollHeight;  // Auto-scroll to the bottom
+    };
+
+    chatSocket.onclose = function (e) {
+        console.error('Chat socket closed unexpectedly');
+    };
+
+    document.getElementById('chat-message-form').onsubmit = function (e) {
+        e.preventDefault();
+        if (chatSocket.readyState === WebSocket.OPEN) {
+            const messageInput = document.getElementById('chat-message-input');
+            const message = messageInput.value;
+            chatSocket.send(JSON.stringify({
+                'message': message,
+                'sender': "{{ request.user.username }}"
+            }));
+            messageInput.value = '';
+        } else {
+            console.error('WebSocket is not open.');
+        }
+    };
+</script>
+{% endblock %}
