@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-*ojv(+h_%b)&gk-47=uo^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['https://chat-app-uy07.onrender.com']
+ALLOWED_HOSTS = ['chat-app-uy07.onrender.com']
 
 # Application definition
 
