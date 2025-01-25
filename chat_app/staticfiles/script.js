@@ -33,3 +33,24 @@ function adjustPageWidth() {
 
 window.addEventListener("resize", adjustPageWidth);
 adjustPageWidth();
+
+// WebSocket Connection
+const ws_scheme = window.location.protocol === "https:" ? "wss://" : "ws://";
+const ws_path =
+  ws_scheme +
+  window.location.host +
+  window.location.pathname.replace("/chat/", "/ws/chat/");
+console.log("Current Protocol: ", window.location.protocol); // Log current protocol
+console.log("WebSocket Scheme: ", ws_scheme); // Log WebSocket scheme
+console.log("WebSocket URL: ", ws_path); // Log the WebSocket URL
+
+const chatSocket = new WebSocket(ws_path);
+
+chatSocket.onmessage = function (e) {
+  const data = JSON.parse(e.data);
+  console.log("Message received: ", data); // Log received messages
+};
+
+chatSocket.onclose = function (e) {
+  console.error("Chat socket closed unexpectedly");
+};
