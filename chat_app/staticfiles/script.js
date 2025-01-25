@@ -40,6 +40,7 @@ let ws_path =
   ws_scheme +
   window.location.host +
   window.location.pathname.replace("/chat/", "/ws/chat/");
+console.log("WebSocket URL: ", ws_path); // Log the WebSocket URL
 let chatSocket = new WebSocket(ws_path);
 
 chatSocket.onmessage = function (e) {
