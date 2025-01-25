@@ -26,14 +26,13 @@ Django
 
 Channels
 
-Django Rest Framework (optional for future extensions)
 
 
 Installation
 Clone the repository:
 bash
-git clone https://github.com/your-username/django-chat-app.git
-cd django-chat-app
+git clone https://github.com/RURD9915/Chat-App.git
+cd Chat-App
 
 
 Create a virtual environment and activate it:
